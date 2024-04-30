@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+  </head>
+  <body>
+    <h1>Dashboard</h1>
+    <form class="intro">
+      <h1>Set Your Profile:</h1>
+      <input type="text" placeholder="Enter Your Profile name" class="name" />
+      <input type="text" placeholder="Enter About You" class="about" />
+      <button onclick="setProfile(event)">Submit</button>
+    </form>
+    <div class="me"></div>
+    <form id="uploadForm" class="uploadForm">
+      <textarea
+        type="text"
+        placeholder="Add caption"
+        class="caption"
+      ></textarea>
+      <input type="file" class="file" name="image" />
+      <button type="submit">Submit</button>
+      
+    </form>
+    <div class="uploaded-images" id="imageE">
+      <h1  class="explore">Explore Dashboard:</h1>
+    </div>
+    <!-- <button onclick="show()">SEE ALL POST</button> -->
+    <button onclick="toggleAddPostForm()" class="btn1">
+      First Add your Post
+    </button>
+    <div class="user-list"></div>
+    <!-- ===================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================== -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+      var socket = io("http://localhost:8080");
+      let expore_text=document.querySelector(".explore")
+      let me = document.querySelector(".me");
+      let uploadForm = document.querySelector("#uploadForm");
+      let uploadedImages = document.querySelector(".uploaded-images");
+      let btn1 = document.querySelector(".btn1");
+      async function setProfile(event) {
+        event.preventDefault();
+        let name = document.querySelector(".name").value;
+        let about = document.querySelector(".about").value;
+        let intro= document.querySelector(".intro");
+        uploadedImages.style.display="block";
+        btn1.style.display="block";
+        await fetch("http://localhost:8080/profile", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: name,
+            about: about,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            me.innerHTML = `
+                    <h2>Welcome ${data.name}!</h2>
+                    <h3 class="about"><u>About You:</u></h3>
+                    <p class="about_1">${data.about}</p>
+        `;
+        intro.style.display="none";
+          });
+      }
+      function toggleAddPostForm() {
+
+          uploadForm.style.display = "block";
+          me.style.display="none";
+          expore_text.style.display="none";
+          btn1.style.display="none"
+
+      }
+      document.querySelector(".uploadForm").addEventListener("submit", uploadImage);
+      async function uploadImage(event) {
+    btn1.style.display="none";
+    expore_text.style.display="none"
+        event.preventDefault();
+        let formData = new FormData();
+        formData.append("image", document.querySelector(".file").files[0]);
+        formData.append("caption", document.querySelector(".caption").value);
+
+        try {
+          const response = await fetch("http://localhost:8080/upload", {
+            method: "POST",
+            body: formData,
+          });
+          uploadForm.style.display="none";
+          const data = await response.json();
+          let uploadedImagesContainer =
+            document.querySelector(".uploaded-images");
+          uploadedImagesContainer.innerHTML = ""; 
+          data.users.forEach((image, idx) => {
+            let imageContainer = document.createElement("div");
+            imageContainer.classList.add("show");
+            imageContainer.id = `post_${image._id}`;
+            imageContainer.innerHTML = `
+            <div  class="post">
+              <button onclick="delet('${image._id}')" class="del">Delete Post</button>
+              <h1>Caption:</h1>
+              <p>${image.caption}</p>
+              <h1>Image:</h1>
+              <img src="${image.url}" alt="Uploaded Image">
+             
+              <div class="btns">
+                <button class="like" type="button"><i class="fas fa-thin fa-heart"></i></button>
+              <span class="count">0</span>
+              <button class="comment" type="button"><i class="fas fa-thin fa-comment"></i></button>
+                </div>
+              <div class="comments">
+                <input type="text" placeholder="add comment" class="comment">
+                <button class="post-comment btnpost" onclick="comment(this)">Post</button>
+              </div>
+              <div class="comment_show"></div>
+              </div>
+            `;
+            uploadedImagesContainer.appendChild(imageContainer);
+   //like button working
+            let likeButtons = imageContainer.querySelectorAll(".like");
+            let commentButtons = imageContainer.querySelectorAll(".comment");
+            likeButtons.forEach((button, idx) => {
+              button.addEventListener("click", function () {
+                let count = imageContainer.querySelector(".count");
+                let currentCount = parseInt(count.textContent);
+                currentCount++;
+                count.textContent = currentCount;
+                socket.emit('likeClicked', idx, currentCount);
+              });
+            });
+  //comment working
+            commentButtons.forEach((button) => {
+              button.addEventListener("click", function () {
+                let comments = imageContainer.querySelector(".comments");
+                comments.style.display = "block";
+              });
+            });
+          });
+        } catch (error) {
+          console.error("Error:", error);
+          alert("An error occurred while uploading the image.");
+        }
+      }
+// Function to handle posting comments
+function comment(button) {
+    let commentInput = button.parentElement.querySelector(".comment").value;
+    socket.emit('newComment', commentInput);
+}
+
+  socket.on('updateComments', (comment) => {
+    // Update comments in all image containers
+    let commentShows = document.querySelectorAll(".comment_show");
+    commentShows.forEach((commentShow) => {
+      commentShow.innerHTML += `
+        <h3>User comment:</h3>
+        <p>${comment}</p>
+      `;
+    });
+  });
+socket.on('updateLikeCount', (idx, count) => {
+let imageContainers = document.querySelectorAll(".uploaded-images .show");
+imageContainers.forEach((container, index) => {
+  if (index === idx) {
+    let countElement = container.querySelector(".count");
+    if (countElement) {
+      countElement.textContent = count;
+    }
+  }
+ });
+      });
+
+      function delet(postId) {
+    fetch(`http://localhost:8080/deletePost/${postId}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (response.ok) {
+          console.log(postId);
+            // Remove the post from the frontend
+            let postElement = document.querySelector(`#post_${postId}`);
+      postElement.parentNode.removeChild(postElement);
+
+        } else {
+            throw new Error('Failed to delete post');
+        }
+    })
+    .catch(error => {
+        console.error('Error deleting post:', error);
+        alert('An error occurred while deleting the post.');
+    });
+}
+     
+    </script>
+  </body>
+</html>

@@ -1,0 +1,211 @@
+/* Additional styles from provided CSS */
+/* Add your custom styles here */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    /* padding: 20px; */
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: #45a049;
+    color: white;
+}
+
+.intro {
+    text-align: center;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.intro input[type="text"], .intro textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+}
+
+.intro button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.intro button:hover {
+    background-color: #45a049;
+}
+
+.me {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.me h1, .me h3 {
+    margin: 0;
+}
+
+.uploadForm {
+    display: none;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.uploadForm textarea, .uploadForm input[type="file"], .uploadForm button {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.uploaded-images {
+    /* width: 800px; */
+    margin: 20px auto;
+}
+
+.uploaded-images div {
+    margin-bottom: 20px;
+}
+
+.uploaded-images p {
+    margin-bottom: 10px;
+}
+
+.btn1 {
+    display: block;
+    max-width: 200px;
+    margin: 20px auto;
+}
+.like{
+    background-color: #4CAF50;
+}
+.comments{
+    display: none;
+}
+.show img{
+    width: 50%;
+}
+.show{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.del{
+  width: 130px;
+  margin-left: 365px;
+  margin-right: 150px;
+}
+#imageE{
+    display: none;
+}
+.btn1{
+    display: none;
+}
+.me{
+    font-size: 30px;
+}
+.about{
+    text-align: left;
+    font-style: italic;
+    margin: 20px 0px;
+}
+.about_1{
+    text-align: left;
+}
+.uploadForm {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
+
+  .uploadForm textarea,
+  .uploadForm input[type="file"],
+  .uploadForm button {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+
+  .uploadForm button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .uploadForm button:hover {
+    background-color: #45a049;
+  }
+  button{
+    padding: 10px 20px;
+    background-color: #45a049;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: white;
+  }
+  .comments input{
+    width: 300px;
+    padding: 10px;
+  }
+  .post{
+    width: 500px;
+    border: 2px solid black;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .btns{
+    display: flex;
+    align-items: center;
+  }
+  .btns button{
+    padding: 3px;
+    border: none;
+    outline: none;
+    background-color:black;
+  }
+  .btns button i{
+    color: brown;
+    font-size: 20px;
+  }

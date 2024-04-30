@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Insta Login Page</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+    <form >
+    <h1>Login to Mini Insta</h1>
+ 
+        <input type="text" placeholder="Enter Your Email" class="email">
+        <input type="text" placeholder="Enter Your Password" class="password">
+        <button onclick="check(event)">submit</button>
+    </form>
+    <script>
+        let email=document.querySelector(".email");
+        let password=document.querySelector(".password");
+        async  function check(event) {
+            event.preventDefault();
+            console.log("===========>",email.value,password.value);
+            await fetch("http://localhost:8080/login",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    email:email.value,
+                    password:password.value
+                })
+            }).then((res)=> res.json()).then((data)=>{
+                email.value="";
+                password.value="";
+                if (data.token) {
+              window.location.href = "./dashboard.html";
+              localStorage.setItem("token", data.token);
+            } else {
+              // Handle authentication failure
+              alert(data.message);
+            }
+            })
+            
+        }
+
+    </script>
+</body>
+</html>

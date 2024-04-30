@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+</head>
+<body>
+    <div class="nav1">
+        <div class="location flex">
+          <i class="fa fa-location-dot"></i>Lorem ipsum dolor sit amet.
+        </div>
+        <div class="call flex"><i class="fa fa-phone"></i>Call:+918723047984</div>
+        <div class="gmail flex"><i class="fa fa-envelope"></i>Demo@gmail.com</div>
+      </div>
+      <div class="main">
+      <div class="nav2">
+        <div class="logotext"><h1>Mini Insta</h1></div>
+        <div class="list">
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#Guards">Guards</a></li>
+            <li><a href="#contact">contact us</a></li>
+          </ul>
+        </div>
+      </div>
+      <!----------------------main1-->
+      <div class="main1" id="home">
+          <div class="inner">
+            <div class="rigth">
+                <img src="./images/instapic.jpg" alt="">
+            </div>
+           <div class="left">
+            <div class="headingmain1"><h1>Welcome   to Mini Instagram</h1></div>
+            <div class="main1text"><p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Assumenda dolore ipsa esse cum aliquam eaque!</p></div>
+            <div class="buttonmain1">
+             <a href="./index.html">   <button class="Btn">
+            </button></a>
+               <button  class="btn_login">Login</button>
+           </div>
+         </div>
+          </div>
+    </div>
+    <script>
+        let btn_login=document.querySelector(".btn_login");
+        btn_login.addEventListener("click",()=>{
+            window.location.href="./html/login.html"
+        })
+    </script>
+</body>
+</html>

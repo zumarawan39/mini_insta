@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Small Insta Sign Up</title>
+  <link rel="stylesheet" href="./css/sign_up.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Sign Up</h2>
+    <!-- <form> -->
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" class="name" />
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" class="phno" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" class="email" />
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" class="password" />
+      </div>
+      <button onclick="submit(event)" type="button">Submit</button>
+    <!-- </form> -->
+  </div>
+  <script>
+   async function submit(event) {
+      event.preventDefault();
+      let name = document.querySelector(".name").value;
+      let phno = document.querySelector(".phno").value;
+      let email = document.querySelector(".email").value;
+      let password = document.querySelector(".password").value;
+      await fetch("http://localhost:8080/sign", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: name,
+          phno: phno,
+          email: email,
+          password: password
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert("Sign Up successfully")
+      window.location.href="./html/login.html";
+
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+    }
+  </script>
+</body>
+</html>
